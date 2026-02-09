@@ -1135,7 +1135,7 @@ function renderSidebar() {
           : '';
         const weekLabel = item.week ? `<br><span style="font-weight:600;font-size:10px;color:#666">W${item.week}</span>` : '';
         html += `<div class="timeline-item">
-          <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span>${weekLabel}</div>`;
+          <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span>${weekLabel}</div>
           <div class="timeline-content">
             <div class="timeline-title">${item.title} <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span></div>
             ${item.note ? `<div class="timeline-note">${item.note}</div>` : ""}
