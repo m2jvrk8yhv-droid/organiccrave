@@ -768,7 +768,7 @@ const WHEEL_DATA = {
     { month: 6, category: "Sales", title: "REWE test region launch", status: "planned", note: "First stores go live", retailers: ["REWE"] },
     { month: 6, category: "Marketing", title: "Summer social push", status: "planned", note: "UGC campaign + paid amplification", retailers: [] },
     { month: 6, category: "Marketing", title: "7-Eleven co-branded promo", status: "planned", note: "In-store POS + social cross-promo", retailers: ["7-Eleven"] },
-    { month: 6, category: "Marketing", title: "In-store activation — 7-Eleven Nørrebrogade", status: "planned", note: "Bambina will facilitate", retailers: ["7-Eleven"], slackTs: "1770638553.313419" },
+    { month: 6, week: 28, category: "Marketing", title: "In-store activation — 7-Eleven Nørrebrogade", status: "planned", note: "Bambina will facilitate", retailers: ["7-Eleven"], slackTs: "1770638553.313419" },
 
     // --- AUGUST 2026 ---
     { month: 7, category: "Launches", title: "Edeka store launch", status: "planned", note: "First Edeka region goes live", retailers: ["Edeka"] },
@@ -1083,7 +1083,8 @@ function showTooltip(e, month) {
       html += `<div class="tooltip-category" style="color:${WHEEL_DATA.colors[cat].main}">${cat}</div>`;
       items.forEach(item => {
         const badge = `<span class="status-badge status-${item.status}">${item.status}</span>`;
-        html += `<div class="tooltip-item">${item.title} ${badge}</div>`;
+        const weekTag = item.week ? ` <span style="color:#888;font-size:10px;">W${item.week}</span>` : '';
+        html += `<div class="tooltip-item">${item.title}${weekTag} ${badge}</div>`;
         if (item.retailers && item.retailers.length > 0) {
           html += `<div class="tooltip-retailer-tags">${item.retailers.map(r => `<span class="tooltip-retailer-tag">${r}</span>`).join('')}</div>`;
         }
@@ -1132,8 +1133,9 @@ function renderSidebar() {
         const retailerTags = (item.retailers && item.retailers.length > 0)
           ? `<div class="timeline-retailers">${item.retailers.map(r => `<span class="retailer-tag">${r}</span>`).join('')}</div>`
           : '';
+        const weekLabel = item.week ? `<br><span style="font-weight:600;font-size:10px;color:#666">W${item.week}</span>` : '';
         html += `<div class="timeline-item">
-          <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span></div>
+          <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span>${weekLabel}</div>`;
           <div class="timeline-content">
             <div class="timeline-title">${item.title} <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span></div>
             ${item.note ? `<div class="timeline-note">${item.note}</div>` : ""}
