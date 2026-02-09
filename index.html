@@ -29,6 +29,9 @@
     --color-launches-mid: #C4A8BA;
     --color-marketing-mid: #E8A0B5;
     --color-sales-mid: #E8CFA0;
+    --color-brand: #3A8A8C;
+    --color-brand-light: #EAF6F6;
+    --color-brand-mid: #8DC5C7;
     --bg: #FFC4DC;
     --bg-soft: #FFD6E7;
     --text: #1A1A1A;
@@ -607,6 +610,7 @@
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-launches)"></div>Launches</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-marketing)"></div>Marketing</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-sales)"></div>Sales</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-brand)"></div>Brand</div>
   </div>
 </div>
 
@@ -640,7 +644,7 @@
   </p>
   <p style="margin-bottom:12px;">
     <strong>2. Carl feeds updates to Claude</strong><br>
-    Claude will auto-categorize into Launches, Marketing, or Sales — and tag retailers — or ask for clarification if ambiguous.
+    Claude will auto-categorize into Launches, Marketing, Sales, or Brand — and tag retailers — or ask for clarification if ambiguous.
   </p>
   <p>
     <strong>3. Push to GitHub</strong><br>
@@ -668,11 +672,12 @@ const WHEEL_DATA = {
     startYear: 2026,
     lastUpdated: "2026-02-09T19:19:00Z"
   },
-  categories: ["Launches", "Marketing", "Sales"],
+  categories: ["Launches", "Marketing", "Sales", "Brand"],
   colors: {
     "Launches":  { main: "#8E7284", light: "#F5EEF3", mid: "#C4A8BA" },
     "Marketing": { main: "#C74B6F", light: "#FCEEF2", mid: "#E8A0B5" },
-    "Sales":     { main: "#C9953C", light: "#FDF5E8", mid: "#E8CFA0" }
+    "Sales":     { main: "#C9953C", light: "#FDF5E8", mid: "#E8CFA0" },
+    "Brand":     { main: "#3A8A8C", light: "#EAF6F6", mid: "#8DC5C7" }
   },
   retailerProfiles: {
     "7-Eleven": {
@@ -812,11 +817,12 @@ let activeRetailer = null;
 const SVG_NS = "http://www.w3.org/2000/svg";
 const CX = 280, CY = 280;
 const RING_RADII = [
-  { inner: 100, outer: 165 },
-  { inner: 168, outer: 220 },
-  { inner: 223, outer: 268 }
+  { inner: 90, outer: 140 },
+  { inner: 143, outer: 190 },
+  { inner: 193, outer: 235 },
+  { inner: 238, outer: 272 }
 ];
-const LABEL_RADIUS = 258;
+const LABEL_RADIUS = 262;
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const MONTH_FULL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
