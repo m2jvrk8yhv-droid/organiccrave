@@ -1011,20 +1011,7 @@ function renderWheel() {
     svg.appendChild(label);
   });
 
-  // Ring labels
-  cats.forEach((cat, ci) => {
-    const r = RING_RADII[ci];
-    const midR = (r.inner + r.outer) / 2;
-    const pos = polarToCartesian(CX, CY, midR, 186);
-    const label = document.createElementNS(SVG_NS, "text");
-    label.classList.add("ring-label");
-    label.setAttribute("x", pos.x);
-    label.setAttribute("y", pos.y + 3);
-    label.setAttribute("fill", WHEEL_DATA.colors[cat].main);
-    label.setAttribute("transform", `rotate(-6, ${pos.x}, ${pos.y})`);
-    label.textContent = cat.toUpperCase();
-    svg.appendChild(label);
-  });
+  // Ring labels removed — categories shown in legend
 
   // Center — logo recreation
   const center = document.createElementNS(SVG_NS, "circle");
