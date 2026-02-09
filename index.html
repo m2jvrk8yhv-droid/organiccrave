@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organic Crave — Yearly Wheel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --color-launches: #E86C47;
+    --color-marketing: #5B8DEF;
+    --color-sales: #4EC69A;
+    --color-launches-light: #FDF0EB;
+    --color-marketing-light: #EBF1FD;
+    --color-sales-light: #E6F8F0;
+    --color-launches-mid: #F4B8A0;
+    --color-marketing-mid: #A8C4F5;
+    --color-sales-mid: #9EDDC4;
+    --bg: #FAFAF8;
+    --text: #1A1A1A;
+    --text-light: #6B6B6B;
+    --border: #E5E5E0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .header {
+    padding: 40px 48px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .header-left h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .header-left h1 span {
+    color: var(--color-launches);
+  }
+
+  .header-left p {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  /* ---- FILTER BAR ---- */
+  .filter-bar {
+    padding: 0 48px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-light);
+    margin-right: 4px;
+  }
+
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .filter-pill:hover {
+    border-color: #ccc;
+    color: var(--text);
+  }
+
+  .filter-pill.active {
+    background: var(--text);
+    border-color: var(--text);
+    color: white;
+  }
+
+  .filter-pill .pill-count {
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(0,0,0,0.1);
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  .filter-pill.active .pill-count {
+    background: rgba(255,255,255,0.25);
+  }
+
+  .main-container {
+    display: flex;
+    padding: 4px 48px 48px;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ---- WHEEL ---- */
+  .wheel-container {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .wheel-svg {
+    filter: drop-shadow(0 4px 24px rgba(0,0,0,0.06));
+  }
+
+  .month-segment {
+    cursor: pointer;
+    transition: opacity 0.25s;
+  }
+
+  .month-segment:hover {
+    opacity: 0.85;
+  }
+
+  .month-segment.dimmed {
+    opacity: 0.25;
+  }
+
+  .month-segment.dimmed:hover {
+    opacity: 0.4;
+  }
+
+  .month-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    fill: var(--text);
+    text-anchor: middle;
+    pointer-events: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ring-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 8.5px;
+    font-weight: 600;
+    text-anchor: middle;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+  }
+
+  .center-circle {
+    fill: var(--bg);
+    stroke: var(--border);
+    stroke-width: 1;
+  }
+
+  .center-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    fill: var(--text);
+    text-anchor: middle;
+  }
+
+  .center-subtext {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    fill: var(--text-light);
+    text-anchor: middle;
+  }
+
+  .item-dot {
+    pointer-events: none;
+  }
+
+  .item-count {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-anchor: middle;
+    pointer-events: none;
+    fill: white;
+  }
+
+  /* ---- ACTIVE FILTER BANNER ---- */
+  .active-filter-banner {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--text);
+    color: white;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .active-filter-banner.visible {
+    display: flex;
+  }
+
+  .active-filter-banner .clear-filter {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.7;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .active-filter-banner .clear-filter:hover {
+    opacity: 1;
+  }
+
+  /* ---- RETAILER PROFILE ---- */
+  .retailer-profile {
+    display: none;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .retailer-profile.visible {
+    display: block;
+  }
+
+  .retailer-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .retailer-profile-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  .retailer-tier {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: #F0F0ED;
+    color: var(--text-light);
+  }
+
+  .retailer-tier.strategic { background: #EBF1FD; color: #4A7BCC; }
+  .retailer-tier.growth { background: #E0F5E9; color: #2D8A56; }
+  .retailer-tier.scale { background: #FDF0EB; color: #C25A30; }
+  .retailer-tier.core { background: #F3ECFB; color: #8754C9; }
+
+  .retailer-context {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .retailer-goals-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
+
+  .retailer-goal {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+    padding: 4px 0;
+  }
+
+  .retailer-goal-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .retailer-key-contact {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .retailer-key-contact strong {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ---- TOOLTIP ---- */
+  .tooltip {
+    position: fixed;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 100;
+    max-width: 300px;
+    min-width: 200px;
+  }
+
+  .tooltip.visible { opacity: 1; }
+
+  .tooltip-month {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .tooltip-category {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 10px 0 4px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tooltip-category:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .tooltip-item {
+    font-size: 12px;
+    color: var(--text);
+    padding: 3px 0;
+    line-height: 1.4;
+  }
+
+  .tooltip-item .status-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  .tooltip-retailer-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2px;
+  }
+
+  .tooltip-retailer-tag {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #F0F0ED;
+    color: #666;
+  }
+
+  .status-planned { background: #F0F0ED; color: #777; }
+  .status-active { background: #E0F5E9; color: #2D8A56; }
+  .status-complete { background: #EBF1FD; color: #4A7BCC; }
+
+  /* ---- SIDEBAR ---- */
+  .sidebar {
+    flex: 1;
+    min-width: 320px;
+    max-width: 480px;
+  }
+
+  .sidebar-section {
+    margin-bottom: 28px;
+  }
+
+  .sidebar-section h3 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-section h3 .cat-bar {
+    width: 4px;
+    height: 16px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 16px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    transition: box-shadow 0.2s;
+  }
+
+  .timeline-item:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .timeline-month {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-light);
+    min-width: 36px;
+    text-transform: uppercase;
+  }
+
+  .timeline-content {
+    flex: 1;
+  }
+
+  .timeline-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .timeline-note {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .timeline-retailers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .retailer-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #F0F0ED;
+    color: #666;
+  }
+
+  .empty-state {
+    font-size: 13px;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 12px 16px;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .how-to-update {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 0 48px 32px;
+    max-width: 720px;
+  }
+
+  .how-to-update h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .how-to-update p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .how-to-update code {
+    background: #F0F0ED;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .header, .filter-bar, .main-container, .footer, .how-to-update {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .main-container { flex-direction: column; align-items: center; }
+    .sidebar { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Organic <span>Crave</span> — Yearly Wheel</h1>
+    <p>Rolling 12-Month View · March 2026 – February 2027</p>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-launches)"></div>Launches</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-marketing)"></div>Marketing</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-sales)"></div>Sales</div>
+  </div>
+</div>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<div class="main-container">
+  <div class="wheel-container">
+    <svg class="wheel-svg" id="wheel" width="560" height="560" viewBox="0 0 560 560"></svg>
+  </div>
+  <div class="sidebar">
+    <div class="active-filter-banner" id="filterBanner">
+      <span id="filterBannerText"></span>
+      <span class="clear-filter" onclick="setRetailerFilter(null)">Clear filter</span>
+    </div>
+    <div class="retailer-profile" id="retailerProfile"></div>
+    <div id="sidebarContent"></div>
+  </div>
+</div>
+
+<div class="how-to-update">
+  <h3>How to update this wheel</h3>
+  <p style="margin-bottom:12px;">
+    <strong>1. Post in #yearly-wheel on Slack</strong><br>
+    Any founder can drop updates in the Slack channel. Keep it simple:
+  </p>
+  <p style="margin-bottom:12px;">
+    <code>"Add Whole Foods launch in August under Launches"</code><br>
+    <code>"Move the influencer campaign from July to September"</code><br>
+    <code>"Mark the Q3 trade show as complete"</code><br>
+    <code>"Tag the holiday activations with 7-Eleven"</code>
+  </p>
+  <p style="margin-bottom:12px;">
+    <strong>2. Carl feeds updates to Claude</strong><br>
+    Claude will auto-categorize into Launches, Marketing, or Sales — and tag retailers — or ask for clarification if ambiguous.
+  </p>
+  <p>
+    <strong>3. Re-deploy to the same Netlify site</strong><br>
+    Drop the updated file on your Netlify site to refresh the live URL. The link stays the same — no need to re-share. Pin it in #yearly-wheel and embed in Notion.
+  </p>
+</div>
+
+<div class="footer">
+  <span>Last updated: February 9, 2026</span>
+  <span>Organic Crave · Internal Planning</span>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ============================================================
+// DATA LAYER — Single source of truth.
+// Each entry can be tagged with one or more retailers.
+// retailers: [] means it applies to all / is general.
+// ============================================================
+const WHEEL_DATA = {
+  meta: {
+    company: "Organic Crave",
+    startMonth: 2,   // 0-indexed: 2 = March
+    startYear: 2026,
+    lastUpdated: "2026-02-09"
+  },
+  categories: ["Launches", "Marketing", "Sales"],
+  colors: {
+    "Launches":  { main: "#E86C47", light: "#FDF0EB", mid: "#F4B8A0" },
+    "Marketing": { main: "#5B8DEF", light: "#EBF1FD", mid: "#A8C4F5" },
+    "Sales":     { main: "#4EC69A", light: "#E6F8F0", mid: "#9EDDC4" }
+  },
+  // Retailer profiles: context + yearly goals for each account
+  retailerProfiles: {
+    "7-Eleven": {
+      context: "Our convenience channel play. 7-Eleven gives us high-frequency, impulse-buy exposure with a younger, on-the-go demographic. We entered discussions in Q1 2026 and are running a SoCal test market before deciding on a wider rollout.",
+      goals: [
+        "Secure 15-store test market in SoCal by June 2026",
+        "Achieve $X velocity per store per week during test",
+        "Decision on regional expansion by August 2026",
+        "Launch holiday-specific convenience SKU in Q4"
+      ],
+      keyContact: "TBD — Regional buyer, Southwest",
+      tier: "Growth"
+    },
+    "Whole Foods": {
+      context: "Our premium natural channel anchor. Whole Foods validates our brand positioning and drives credibility with health-conscious consumers. We're focused on regional entry first (Southwest), then expanding nationally.",
+      goals: [
+        "Secure Southwest regional placement by Q3 2026",
+        "Land holiday gift box in 100+ doors for Q4",
+        "Build toward national distribution by mid-2027",
+        "Maintain premium shelf placement — no promo dependency"
+      ],
+      keyContact: "TBD — Regional buyer",
+      tier: "Strategic"
+    },
+    "Target": {
+      context: "Our mass-market scale play. Target opens up mainstream visibility and volume. We're approaching with a test-and-learn model — 200 doors initially — focused on the better-for-you snacking endcap.",
+      goals: [
+        "Launch in 200 test doors by August 2026",
+        "Hit velocity benchmarks for expanded distribution",
+        "Secure holiday gift box placement in Q4",
+        "Build case for 1,000+ door expansion in 2027"
+      ],
+      keyContact: "TBD — Category buyer, Snacks",
+      tier: "Scale"
+    },
+    "Sprouts": {
+      context: "Our natural/specialty grocery foundation. Sprouts customers are our core demographic — health-forward, ingredient-conscious shoppers. We've been in line reviews and are deepening the relationship for broader shelf presence.",
+      goals: [
+        "Expand from current SKUs to full line by summer shelf reset",
+        "Participate in Q4 holiday in-store sampling activations",
+        "Grow velocities 20% YoY through targeted promos",
+        "Strengthen buyer relationship for 2027 innovation pipeline"
+      ],
+      keyContact: "TBD — Category buyer",
+      tier: "Core"
+    }
+  },
+  // Each entry: { month, category, title, status, note, retailers[] }
+  // retailers: [] = general/all | ["7-Eleven"] = 7-Eleven specific
+  entries: [
+    // --- MARCH 2026 ---
+    { month: 2, category: "Marketing", title: "Spring content calendar launch", status: "planned", note: "Social + email sequences", retailers: [] },
+
+    // --- APRIL 2026 ---
+    { month: 3, category: "Launches", title: "New SKU: Crave Bites", status: "planned", note: "Snack line extension — DTC first", retailers: [] },
+    { month: 3, category: "Sales", title: "Sprouts buyer meeting", status: "planned", note: "Line review for summer shelf reset", retailers: ["Sprouts"] },
+    { month: 3, category: "Sales", title: "7-Eleven regional intro", status: "planned", note: "Initial pitch for convenience channel", retailers: ["7-Eleven"] },
+
+    // --- MAY 2026 ---
+    { month: 4, category: "Marketing", title: "Influencer seeding wave 1", status: "planned", note: "Target 30 micro-influencers", retailers: [] },
+    { month: 4, category: "Sales", title: "Natural Products Expo follow-up", status: "planned", note: "Lead conversion from Expo West", retailers: [] },
+
+    // --- JUNE 2026 ---
+    { month: 5, category: "Launches", title: "Summer limited edition", status: "planned", note: "Seasonal flavor drop", retailers: [] },
+    { month: 5, category: "Marketing", title: "Sampling campaign: farmers markets", status: "planned", note: "10 markets across CA", retailers: [] },
+    { month: 5, category: "Sales", title: "7-Eleven test store program", status: "planned", note: "15 stores in SoCal test market", retailers: ["7-Eleven"] },
+
+    // --- JULY 2026 ---
+    { month: 6, category: "Sales", title: "Whole Foods regional pitch", status: "planned", note: "Southwest region focus", retailers: ["Whole Foods"] },
+    { month: 6, category: "Marketing", title: "Summer social push", status: "planned", note: "UGC campaign + paid amplification", retailers: [] },
+    { month: 6, category: "Marketing", title: "7-Eleven co-branded promo", status: "planned", note: "In-store POS + social cross-promo", retailers: ["7-Eleven"] },
+
+    // --- AUGUST 2026 ---
+    { month: 7, category: "Launches", title: "Retail expansion: Target", status: "planned", note: "Test in 200 doors", retailers: ["Target"] },
+    { month: 7, category: "Sales", title: "7-Eleven expansion decision", status: "planned", note: "Review test store data, plan rollout", retailers: ["7-Eleven"] },
+
+    // --- SEPTEMBER 2026 ---
+    { month: 8, category: "Marketing", title: "Back-to-school campaign", status: "planned", note: "Family-focused messaging pivot", retailers: [] },
+    { month: 8, category: "Sales", title: "Q4 retail pre-sell", status: "planned", note: "Holiday sets + gift packs", retailers: ["Whole Foods", "Target", "Sprouts"] },
+
+    // --- OCTOBER 2026 ---
+    { month: 9, category: "Launches", title: "Holiday gift box collection", status: "planned", note: "3-SKU bundle, premium packaging", retailers: ["Whole Foods", "Target"] },
+    { month: 9, category: "Sales", title: "7-Eleven holiday snack endcap", status: "planned", note: "Limited holiday SKU for convenience", retailers: ["7-Eleven"] },
+
+    // --- NOVEMBER 2026 ---
+    { month: 10, category: "Marketing", title: "Black Friday / Cyber Monday", status: "planned", note: "DTC promo strategy", retailers: [] },
+    { month: 10, category: "Sales", title: "Holiday in-store activations", status: "planned", note: "End-cap displays, sampling", retailers: ["Whole Foods", "Sprouts"] },
+    { month: 10, category: "Sales", title: "7-Eleven holiday promo", status: "planned", note: "BOGO + impulse placement", retailers: ["7-Eleven"] },
+
+    // --- DECEMBER 2026 ---
+    { month: 11, category: "Marketing", title: "Year-end brand storytelling", status: "planned", note: "Impact report + founder letter", retailers: [] },
+
+    // --- JANUARY 2027 ---
+    { month: 0, category: "Launches", title: "New Year new lineup reveal", status: "planned", note: "Tease 2027 product roadmap", retailers: [] },
+    { month: 0, category: "Sales", title: "Q1 retailer onboarding", status: "planned", note: "New accounts from Q4 pipeline", retailers: [] },
+
+    // --- FEBRUARY 2027 ---
+    { month: 1, category: "Marketing", title: "Valentine's limited collab", status: "planned", note: "Co-brand partnership TBD", retailers: [] }
+  ]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let activeRetailer = null; // null = show all
+
+// ============================================================
+// RENDER ENGINE
+// ============================================================
+const SVG_NS = "http://www.w3.org/2000/svg";
+const CX = 280, CY = 280;
+const RING_RADII = [
+  { inner: 100, outer: 165 },  // Launches (inner)
+  { inner: 168, outer: 220 },  // Marketing (middle)
+  { inner: 223, outer: 268 }   // Sales (outer)
+];
+const LABEL_RADIUS = 258;
+const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONTH_FULL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+function getMonthOrder() {
+  const order = [];
+  let m = WHEEL_DATA.meta.startMonth;
+  for (let i = 0; i < 12; i++) {
+    order.push(m % 12);
+    m++;
+  }
+  return order;
+}
+
+function polarToCartesian(cx, cy, r, angleDeg) {
+  const rad = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function describeArc(cx, cy, innerR, outerR, startAngle, endAngle) {
+  const gap = 0.8;
+  const s = startAngle + gap;
+  const e = endAngle - gap;
+  const outerStart = polarToCartesian(cx, cy, outerR, s);
+  const outerEnd   = polarToCartesian(cx, cy, outerR, e);
+  const innerEnd   = polarToCartesian(cx, cy, innerR, e);
+  const innerStart = polarToCartesian(cx, cy, innerR, s);
+  const largeArc = (e - s) > 180 ? 1 : 0;
+  return [
+    "M", outerStart.x, outerStart.y,
+    "A", outerR, outerR, 0, largeArc, 1, outerEnd.x, outerEnd.y,
+    "L", innerEnd.x, innerEnd.y,
+    "A", innerR, innerR, 0, largeArc, 0, innerStart.x, innerStart.y,
+    "Z"
+  ].join(" ");
+}
+
+// Get all unique retailers from data
+function getAllRetailers() {
+  const set = new Set();
+  WHEEL_DATA.entries.forEach(e => {
+    (e.retailers || []).forEach(r => set.add(r));
+  });
+  return Array.from(set).sort();
+}
+
+// Filter-aware entry lookup
+function entriesForMonth(month, category) {
+  return WHEEL_DATA.entries.filter(e => {
+    if (e.month !== month || e.category !== category) return false;
+    if (!activeRetailer) return true;
+    // Show if entry is tagged with active retailer
+    return (e.retailers || []).includes(activeRetailer);
+  });
+}
+
+// Count entries for a retailer
+function countForRetailer(retailer) {
+  if (!retailer) return WHEEL_DATA.entries.length;
+  return WHEEL_DATA.entries.filter(e => (e.retailers || []).includes(retailer)).length;
+}
+
+// Check if a segment has ANY matching entries (for dimming)
+function segmentHasFilteredItems(month, category) {
+  return WHEEL_DATA.entries.some(e => {
+    if (e.month !== month || e.category !== category) return false;
+    if (!activeRetailer) return true;
+    return (e.retailers || []).includes(activeRetailer);
+  });
+}
+
+// ---- FILTER BAR ----
+function renderFilterBar() {
+  const bar = document.getElementById("filterBar");
+  const retailers = getAllRetailers();
+
+  let html = '<span class="filter-label">Filter by retailer:</span>';
+  html += `<span class="filter-pill ${!activeRetailer ? 'active' : ''}" onclick="setRetailerFilter(null)">All <span class="pill-count">${WHEEL_DATA.entries.length}</span></span>`;
+
+  retailers.forEach(r => {
+    const count = countForRetailer(r);
+    html += `<span class="filter-pill ${activeRetailer === r ? 'active' : ''}" onclick="setRetailerFilter('${r.replace(/'/g, "\\'")}')">${r} <span class="pill-count">${count}</span></span>`;
+  });
+
+  bar.innerHTML = html;
+
+  // Update banner
+  const banner = document.getElementById("filterBanner");
+  const bannerText = document.getElementById("filterBannerText");
+  if (activeRetailer) {
+    const count = countForRetailer(activeRetailer);
+    bannerText.textContent = `Showing ${count} item${count !== 1 ? 's' : ''} for ${activeRetailer}`;
+    banner.classList.add("visible");
+  } else {
+    banner.classList.remove("visible");
+  }
+}
+
+function setRetailerFilter(retailer) {
+  activeRetailer = retailer;
+  renderFilterBar();
+  renderRetailerProfile();
+  renderWheel();
+  renderSidebar();
+}
+
+// ---- RETAILER PROFILE PANEL ----
+function renderRetailerProfile() {
+  const panel = document.getElementById("retailerProfile");
+  if (!activeRetailer || !WHEEL_DATA.retailerProfiles || !WHEEL_DATA.retailerProfiles[activeRetailer]) {
+    panel.classList.remove("visible");
+    panel.innerHTML = "";
+    return;
+  }
+
+  const profile = WHEEL_DATA.retailerProfiles[activeRetailer];
+  const tierClass = (profile.tier || "").toLowerCase();
+
+  let goalsHtml = "";
+  if (profile.goals && profile.goals.length > 0) {
+    goalsHtml = `<div class="retailer-goals-label">Yearly Goals</div>`;
+    profile.goals.forEach(g => {
+      goalsHtml += `<div class="retailer-goal"><span class="retailer-goal-bullet"></span><span>${g}</span></div>`;
+    });
+  }
+
+  panel.innerHTML = `
+    <div class="retailer-profile-header">
+      <span class="retailer-profile-name">${activeRetailer}</span>
+      ${profile.tier ? `<span class="retailer-tier ${tierClass}">${profile.tier}</span>` : ''}
+    </div>
+    <div class="retailer-context">${profile.context || ''}</div>
+    ${goalsHtml}
+    ${profile.keyContact ? `<div class="retailer-key-contact"><strong>Key contact:</strong> ${profile.keyContact}</div>` : ''}
+  `;
+  panel.classList.add("visible");
+}
+
+// ---- WHEEL ----
+function renderWheel() {
+  const svg = document.getElementById("wheel");
+  svg.innerHTML = "";
+  const months = getMonthOrder();
+  const cats = WHEEL_DATA.categories;
+  const angleStep = 360 / 12;
+
+  // Background circle
+  const bgCircle = document.createElementNS(SVG_NS, "circle");
+  bgCircle.setAttribute("cx", CX);
+  bgCircle.setAttribute("cy", CY);
+  bgCircle.setAttribute("r", 272);
+  bgCircle.setAttribute("fill", "white");
+  bgCircle.setAttribute("stroke", "#E5E5E0");
+  bgCircle.setAttribute("stroke-width", "1");
+  svg.appendChild(bgCircle);
+
+  months.forEach((month, mi) => {
+    const startAngle = mi * angleStep;
+    const endAngle = (mi + 1) * angleStep;
+
+    cats.forEach((cat, ci) => {
+      const r = RING_RADII[ci];
+      const color = WHEEL_DATA.colors[cat];
+      const items = entriesForMonth(month, cat);
+      const hasItems = items.length > 0;
+
+      // Check if segment should be dimmed (has entries in unfiltered view but none match filter)
+      const hasAnyEntries = WHEEL_DATA.entries.some(e => e.month === month && e.category === cat);
+      const isDimmed = activeRetailer && hasAnyEntries && !hasItems;
+
+      const g = document.createElementNS(SVG_NS, "g");
+      g.classList.add("month-segment");
+      if (isDimmed) g.classList.add("dimmed");
+      g.dataset.month = month;
+      g.dataset.category = cat;
+
+      const path = document.createElementNS(SVG_NS, "path");
+      path.setAttribute("d", describeArc(CX, CY, r.inner, r.outer, startAngle, endAngle));
+      path.setAttribute("fill", hasItems ? color.mid : color.light);
+      path.setAttribute("stroke", "white");
+      path.setAttribute("stroke-width", "1.5");
+      g.appendChild(path);
+
+      if (hasItems) {
+        const midAngle = (startAngle + endAngle) / 2;
+        const midR = (r.inner + r.outer) / 2;
+        const pos = polarToCartesian(CX, CY, midR, midAngle);
+
+        const dot = document.createElementNS(SVG_NS, "circle");
+        dot.classList.add("item-dot");
+        dot.setAttribute("cx", pos.x);
+        dot.setAttribute("cy", pos.y);
+        dot.setAttribute("r", 10);
+        dot.setAttribute("fill", color.main);
+        g.appendChild(dot);
+
+        const countText = document.createElementNS(SVG_NS, "text");
+        countText.classList.add("item-count");
+        countText.setAttribute("x", pos.x);
+        countText.setAttribute("y", pos.y + 3.5);
+        countText.textContent = items.length;
+        g.appendChild(countText);
+      }
+
+      g.addEventListener("mouseenter", (e) => showTooltip(e, month));
+      g.addEventListener("mousemove", (e) => moveTooltip(e));
+      g.addEventListener("mouseleave", hideTooltip);
+
+      svg.appendChild(g);
+    });
+
+    const labelAngle = (mi + 0.5) * angleStep;
+    const labelPos = polarToCartesian(CX, CY, LABEL_RADIUS + 16, labelAngle);
+    const label = document.createElementNS(SVG_NS, "text");
+    label.classList.add("month-label");
+    label.setAttribute("x", labelPos.x);
+    label.setAttribute("y", labelPos.y + 4);
+    label.textContent = MONTH_NAMES[month];
+    svg.appendChild(label);
+  });
+
+  // Ring labels
+  cats.forEach((cat, ci) => {
+    const r = RING_RADII[ci];
+    const midR = (r.inner + r.outer) / 2;
+    const pos = polarToCartesian(CX, CY, midR, 186);
+    const label = document.createElementNS(SVG_NS, "text");
+    label.classList.add("ring-label");
+    label.setAttribute("x", pos.x);
+    label.setAttribute("y", pos.y + 3);
+    label.setAttribute("fill", WHEEL_DATA.colors[cat].main);
+    label.setAttribute("transform", `rotate(-6, ${pos.x}, ${pos.y})`);
+    label.textContent = cat.toUpperCase();
+    svg.appendChild(label);
+  });
+
+  // Center
+  const center = document.createElementNS(SVG_NS, "circle");
+  center.classList.add("center-circle");
+  center.setAttribute("cx", CX);
+  center.setAttribute("cy", CY);
+  center.setAttribute("r", 60);
+  svg.appendChild(center);
+
+  const cText = document.createElementNS(SVG_NS, "text");
+  cText.classList.add("center-text");
+  cText.setAttribute("x", CX);
+  cText.setAttribute("y", CY - 6);
+  cText.textContent = activeRetailer ? activeRetailer.toUpperCase() : "ORGANIC";
+  svg.appendChild(cText);
+
+  const cText2 = document.createElementNS(SVG_NS, "text");
+  cText2.classList.add("center-text");
+  cText2.setAttribute("x", CX);
+  cText2.setAttribute("y", CY + 10);
+  cText2.setAttribute("style", `fill: ${activeRetailer ? 'var(--text-light)' : '#E86C47'}`);
+  cText2.textContent = activeRetailer ? "PLAN" : "CRAVE";
+  svg.appendChild(cText2);
+
+  const cSub = document.createElementNS(SVG_NS, "text");
+  cSub.classList.add("center-subtext");
+  cSub.setAttribute("x", CX);
+  cSub.setAttribute("y", CY + 24);
+  cSub.textContent = "2026 – 2027";
+  svg.appendChild(cSub);
+}
+
+// ---- TOOLTIP ----
+function showTooltip(e, month) {
+  const tip = document.getElementById("tooltip");
+  const cats = WHEEL_DATA.categories;
+  let html = `<div class="tooltip-month">${MONTH_FULL[month]} ${month >= WHEEL_DATA.meta.startMonth ? WHEEL_DATA.meta.startYear : WHEEL_DATA.meta.startYear + 1}</div>`;
+
+  let hasItems = false;
+  cats.forEach(cat => {
+    const items = entriesForMonth(month, cat);
+    if (items.length > 0) {
+      hasItems = true;
+      html += `<div class="tooltip-category" style="color:${WHEEL_DATA.colors[cat].main}">${cat}</div>`;
+      items.forEach(item => {
+        const badge = `<span class="status-badge status-${item.status}">${item.status}</span>`;
+        html += `<div class="tooltip-item">${item.title} ${badge}</div>`;
+        if (item.retailers && item.retailers.length > 0) {
+          html += `<div class="tooltip-retailer-tags">${item.retailers.map(r => `<span class="tooltip-retailer-tag">${r}</span>`).join('')}</div>`;
+        }
+        if (item.note) html += `<div class="tooltip-item" style="color:#999;font-size:11px;">↳ ${item.note}</div>`;
+      });
+    }
+  });
+
+  if (!hasItems) {
+    html += `<div class="tooltip-item" style="color:#999;font-style:italic;">${activeRetailer ? 'No ' + activeRetailer + ' items this month' : 'No items yet'}</div>`;
+  }
+
+  tip.innerHTML = html;
+  tip.classList.add("visible");
+  moveTooltip(e);
+}
+
+function moveTooltip(e) {
+  const tip = document.getElementById("tooltip");
+  let x = e.clientX + 16;
+  let y = e.clientY + 12;
+  if (x + 300 > window.innerWidth) x = e.clientX - 310;
+  if (y + 200 > window.innerHeight) y = e.clientY - 200;
+  tip.style.left = x + "px";
+  tip.style.top = y + "px";
+}
+
+function hideTooltip() {
+  document.getElementById("tooltip").classList.remove("visible");
+}
+
+// ---- SIDEBAR ----
+function renderSidebar() {
+  const sidebar = document.getElementById("sidebarContent");
+  const months = getMonthOrder();
+  const cats = WHEEL_DATA.categories;
+  let html = "";
+
+  cats.forEach(cat => {
+    const color = WHEEL_DATA.colors[cat];
+    html += `<div class="sidebar-section">`;
+    html += `<h3><span class="cat-bar" style="background:${color.main}"></span>${cat}</h3>`;
+
+    let hasItems = false;
+    months.forEach(month => {
+      const items = entriesForMonth(month, cat);
+      items.forEach(item => {
+        hasItems = true;
+        const yr = month >= WHEEL_DATA.meta.startMonth ? WHEEL_DATA.meta.startYear : WHEEL_DATA.meta.startYear + 1;
+        const retailerTags = (item.retailers && item.retailers.length > 0)
+          ? `<div class="timeline-retailers">${item.retailers.map(r => `<span class="retailer-tag">${r}</span>`).join('')}</div>`
+          : '';
+        html += `<div class="timeline-item">
+          <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span></div>
+          <div class="timeline-content">
+            <div class="timeline-title">${item.title} <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span></div>
+            ${item.note ? `<div class="timeline-note">${item.note}</div>` : ""}
+            ${retailerTags}
+          </div>
+        </div>`;
+      });
+    });
+
+    if (!hasItems) {
+      html += `<div class="empty-state">${activeRetailer ? 'No ' + activeRetailer + ' items in this category.' : 'No items yet — tell Claude what to add.'}</div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  sidebar.innerHTML = html;
+}
+
+// ---- INIT ----
+renderFilterBar();
+renderRetailerProfile();
+renderWheel();
+renderSidebar();
+</script>
+</body>
+</html>
