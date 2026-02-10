@@ -1125,7 +1125,7 @@ function renderSidebar() {
         html += `<div class="timeline-item">
           <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span>${weekLabel}</div>
           <div class="timeline-content">
-            <div class="timeline-title">${item.title}${item.status !== 'planned' ? ` <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span>` : ''}</div>
+            <div class="timeline-title">${item.title}${item.status !== 'planned' ? ` <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span>` : ''}${item.notionUrl ? ` <a href="${item.notionUrl}" target="_blank" rel="noopener" style="text-decoration:none;font-size:11px;vertical-align:middle;opacity:0.5;margin-left:4px;" title="Open in Notion">&#x2197;</a>` : ''}</div>
             ${item.note ? `<div class="timeline-note">${item.note}</div>` : ""}
             ${retailerTags}
           </div>
