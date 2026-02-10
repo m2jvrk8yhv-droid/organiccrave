@@ -852,21 +852,7 @@ const WHEEL_DATA = {
   entries: [
     // --- REAL ENTRIES ---
     { month: 6, week: 28, category: "Activation", title: "In-store activation — 7-Eleven Nørrebrogade", status: "planned", note: "Bambina will facilitate", retailers: ["7-Eleven"], slackTs: "1770638553.313419", notionUrl: "https://www.notion.so/303fbe3c99db817eb640f39f2ce9723a" },
-    // --- RETAILER PLACEHOLDERS (to make retailers visible on the wheel) ---
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Edeka"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["REWE"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Joe & the Juice"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Normal"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Søstrene Grene"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Salling Group"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Meny"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Coop"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Circle K"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["B2B"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Matas"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Biocompany"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Budni"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Other"] }
+    // Retailers are populated from retailerProfiles — no placeholder entries needed
   ]
 };
 
@@ -929,6 +915,9 @@ function getAllRetailers() {
   WHEEL_DATA.entries.forEach(e => {
     (e.retailers || []).forEach(r => set.add(r));
   });
+  if (WHEEL_DATA.retailerProfiles) {
+    Object.keys(WHEEL_DATA.retailerProfiles).forEach(r => set.add(r));
+  }
   return Array.from(set).sort();
 }
 
@@ -949,7 +938,7 @@ function countForRetailer(retailer) {
 function renderFilterBar() {
   const bar = document.getElementById("filterBar");
   const retailers = getAllRetailers();
-  let html = '<span class="filter-label">Filter by retailer:</span>';
+  let html = '';
   html += `<span class="filter-pill ${!activeRetailer ? 'active' : ''}" onclick="setRetailerFilter(null)">All <span class="pill-count">${WHEEL_DATA.entries.length}</span></span>`;
   retailers.forEach(r => {
     const count = countForRetailer(r);
