@@ -108,31 +108,67 @@
   }
 
   /* ---- FILTER BAR ---- */
-  .filter-bar {
+  .filter-bar-wrapper {
+    position: relative;
     padding: 0 48px 20px;
+  }
+  .filter-bar {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
   }
-  .filter-bar::-webkit-scrollbar { height: 4px; }
-  .filter-bar::-webkit-scrollbar-track { background: transparent; }
-  .filter-bar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .filter-label {
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-bar-fade-left,
+  .filter-bar-fade-right {
+    position: absolute;
+    top: 0;
+    bottom: 20px;
+    width: 40px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .filter-bar-fade-left {
+    left: 48px;
+    background: linear-gradient(to right, var(--bg), transparent);
+  }
+  .filter-bar-fade-right {
+    right: 48px;
+    background: linear-gradient(to left, var(--bg), transparent);
+  }
+  .filter-bar-fade-left.visible,
+  .filter-bar-fade-right.visible { opacity: 1; }
+  .filter-bar-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(calc(-50% - 10px));
+    z-index: 3;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
     color: var(--text-light);
-    margin-right: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
+  .filter-bar-arrow:hover { background: var(--bg-alt); }
+  .filter-bar-arrow.visible { opacity: 1; }
+  .filter-bar-arrow-left { left: 16px; }
+  .filter-bar-arrow-right { right: 16px; }
 
   .filter-pill {
     display: inline-flex;
@@ -605,10 +641,14 @@
   }
 
   @media (max-width: 900px) {
-    .header, .filter-bar, .main-container, .footer, .how-to-update {
+    .header, .filter-bar-wrapper, .main-container, .footer, .how-to-update {
       padding-left: 20px;
       padding-right: 20px;
     }
+    .filter-bar-fade-left { left: 20px; }
+    .filter-bar-fade-right { right: 20px; }
+    .filter-bar-arrow-left { left: 4px; }
+    .filter-bar-arrow-right { right: 4px; }
     .main-container { flex-direction: column; align-items: center; }
     .sidebar { max-width: 100%; }
   }
@@ -630,7 +670,13 @@
   </div>
 </div>
 
-<div class="filter-bar" id="filterBar"></div>
+<div class="filter-bar-wrapper">
+  <div class="filter-bar-fade-left" id="fadeLeft"></div>
+  <div class="filter-bar-fade-right" id="fadeRight"></div>
+  <button class="filter-bar-arrow filter-bar-arrow-left" id="arrowLeft" onclick="scrollFilterBar(-200)">&#8249;</button>
+  <button class="filter-bar-arrow filter-bar-arrow-right" id="arrowRight" onclick="scrollFilterBar(200)">&#8250;</button>
+  <div class="filter-bar" id="filterBar"></div>
+</div>
 
 <div class="main-container">
   <div class="wheel-container">
@@ -964,6 +1010,38 @@ function setRetailerFilter(retailer) {
   renderWheel();
   renderSidebar();
 }
+
+function scrollFilterBar(delta) {
+  const bar = document.getElementById("filterBar");
+  bar.scrollLeft += delta;
+}
+
+function updateFilterBarIndicators() {
+  const bar = document.getElementById("filterBar");
+  const fadeL = document.getElementById("fadeLeft");
+  const fadeR = document.getElementById("fadeRight");
+  const arrL = document.getElementById("arrowLeft");
+  const arrR = document.getElementById("arrowRight");
+  const atLeft = bar.scrollLeft <= 4;
+  const atRight = bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 4;
+  fadeL.classList.toggle("visible", !atLeft);
+  fadeR.classList.toggle("visible", !atRight);
+  arrL.classList.toggle("visible", !atLeft);
+  arrR.classList.toggle("visible", !atRight);
+}
+
+(function initFilterBarScroll() {
+  const bar = document.getElementById("filterBar");
+  if (!bar) return;
+  bar.addEventListener("scroll", updateFilterBarIndicators);
+  bar.addEventListener("wheel", function(e) {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    bar.scrollLeft += e.deltaY;
+  }, { passive: false });
+  new ResizeObserver(updateFilterBarIndicators).observe(bar);
+  setTimeout(updateFilterBarIndicators, 100);
+})();
 
 // ---- RETAILER PROFILE PANEL ----
 function renderRetailerProfile() {
