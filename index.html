@@ -113,8 +113,15 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
   }
+  .filter-bar::-webkit-scrollbar { height: 4px; }
+  .filter-bar::-webkit-scrollbar-track { background: transparent; }
+  .filter-bar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
   .filter-label {
     font-size: 12px;
@@ -123,6 +130,8 @@
     letter-spacing: 0.6px;
     color: var(--text-light);
     margin-right: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .filter-pill {
@@ -137,6 +146,8 @@
     background: var(--card-bg);
     color: var(--text-light);
     cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: all 0.2s;
     user-select: none;
   }
@@ -747,6 +758,95 @@ const WHEEL_DATA = {
       ],
       keyContact: "TBD",
       tier: "Growth"
+    },
+    "Salling Group": {
+      context: "Denmark's largest retailer group, operating Føtex, Bilka, and Netto. A strategic entry point for broad Danish retail coverage across multiple store formats.",
+      goals: [
+        "Secure buyer meeting with category team",
+        "Pitch for Føtex and Bilka placement",
+        "Establish test market presence"
+      ],
+      keyContact: "TBD",
+      tier: "Strategic"
+    },
+    "Meny": {
+      context: "Premium Norwegian supermarket chain focused on quality and fresh food. Strong alignment with Organic Crave's positioning in the Scandinavian premium grocery segment.",
+      goals: [
+        "Explore listing in Norwegian market",
+        "Identify category buyer contact",
+        "Pitch premium organic positioning"
+      ],
+      keyContact: "TBD",
+      tier: "Growth"
+    },
+    "Coop": {
+      context: "Major Scandinavian cooperative retail group with presence across Denmark, Sweden, and Norway. Offers access to a broad, value-conscious consumer base.",
+      goals: [
+        "Identify target Coop banners for initial entry",
+        "Secure buyer meetings",
+        "Develop pricing strategy for cooperative model"
+      ],
+      keyContact: "TBD",
+      tier: "Strategic"
+    },
+    "Circle K": {
+      context: "Global convenience store chain with strong Scandinavian presence. High-traffic, impulse-buy format ideal for on-the-go snack positioning.",
+      goals: [
+        "Pitch convenience-format SKUs",
+        "Explore grab-and-go placement",
+        "Test in select Nordic locations"
+      ],
+      keyContact: "TBD",
+      tier: "Growth"
+    },
+    "B2B": {
+      context: "Business-to-business channel covering office supplies, catering, corporate gifting, and wholesale accounts. A volume play with recurring order potential.",
+      goals: [
+        "Develop B2B pricing and packaging",
+        "Identify target corporate accounts",
+        "Build wholesale channel strategy"
+      ],
+      keyContact: "TBD",
+      tier: "Scale"
+    },
+    "Matas": {
+      context: "Leading Danish health and beauty retailer. Matas's focus on wellbeing and natural products creates a strong fit for Organic Crave's health-forward brand.",
+      goals: [
+        "Pitch health-snack category listing",
+        "Explore in-store sampling opportunities",
+        "Develop Matas-specific packaging or bundles"
+      ],
+      keyContact: "TBD",
+      tier: "Growth"
+    },
+    "Biocompany": {
+      context: "German organic supermarket chain. A niche but highly aligned channel for reaching dedicated organic consumers in the German market.",
+      goals: [
+        "Secure listing in Berlin-area stores",
+        "Build organic certification story",
+        "Expand to additional Biocompany regions"
+      ],
+      keyContact: "TBD",
+      tier: "Core"
+    },
+    "Budni": {
+      context: "Hamburg-based drugstore and household retail chain expanding across Germany. Budni's community-oriented, sustainability-focused model aligns with our brand values.",
+      goals: [
+        "Identify snack-aisle or checkout placement opportunity",
+        "Pitch to category buyer",
+        "Pilot in Hamburg-area locations"
+      ],
+      keyContact: "TBD",
+      tier: "Growth"
+    },
+    "Other": {
+      context: "Catch-all for exploratory retailer conversations, one-off partnerships, pop-up events, and channels not yet assigned to a dedicated retailer track.",
+      goals: [
+        "Track ad-hoc opportunities",
+        "Evaluate fit for dedicated retailer track"
+      ],
+      keyContact: "N/A",
+      tier: "Scale"
     }
   },
   entries: [
@@ -757,7 +857,16 @@ const WHEEL_DATA = {
     { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["REWE"] },
     { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Joe & the Juice"] },
     { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Normal"] },
-    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Søstrene Grene"] }
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Søstrene Grene"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Salling Group"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Meny"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Coop"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Circle K"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["B2B"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Matas"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Biocompany"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Budni"] },
+    { month: 2, category: "News", title: "TBD", status: "planned", note: "Placeholder", retailers: ["Other"] }
   ]
 };
 
