@@ -340,10 +340,10 @@
     color: var(--text-light);
   }
 
-  .retailer-tier.strategic { background: #EBF1FD; color: #4A7BCC; }
-  .retailer-tier.growth { background: #E0F5E9; color: #2D8A56; }
-  .retailer-tier.scale { background: #FDF0EB; color: #C25A30; }
-  .retailer-tier.core { background: #F3ECFB; color: #8754C9; }
+  .retailer-tier.denmark { background: #FDEBED; color: #C13E52; }
+  .retailer-tier.germany { background: #FDF5E8; color: #B8860B; }
+  .retailer-tier.scandinavia { background: #EBF1FD; color: #4A7BCC; }
+  .retailer-tier.europe { background: #F3ECFB; color: #8754C9; }
 
   .retailer-context {
     font-size: 13px;
@@ -713,7 +713,8 @@ const WHEEL_DATA = {
         "Launch holiday-specific convenience SKU in Q4"
       ],
       keyContact: "TBD",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Denmark"
     },
     "REWE": {
       context: "Major German supermarket chain and a key gateway into the DACH retail market. REWE's focus on quality and organic aligns well with our brand positioning.",
@@ -724,7 +725,8 @@ const WHEEL_DATA = {
         "Establish presence in organic/health aisle"
       ],
       keyContact: "TBD",
-      tier: "Strategic"
+      tier: "Strategic",
+      country: "Germany"
     },
     "Edeka": {
       context: "Germany's largest supermarket chain. Edeka offers massive scale potential and mainstream visibility in the German market. Their independent store model means building relationships region by region.",
@@ -735,7 +737,8 @@ const WHEEL_DATA = {
         "Build case study for broader Edeka expansion"
       ],
       keyContact: "TBD",
-      tier: "Scale"
+      tier: "Scale",
+      country: "Germany"
     },
     "Joe & the Juice": {
       context: "Premium lifestyle brand with strong alignment to our target demographic — health-conscious, urban, 20-35. A co-branded or in-store partnership here is about brand elevation and visibility, not volume.",
@@ -746,7 +749,8 @@ const WHEEL_DATA = {
         "Leverage partnership for social content and brand credibility"
       ],
       keyContact: "Sabrine Fabrin",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Europe"
     },
     "Normal": {
       context: "Scandinavian discount variety store with strong presence across Northern Europe. Normal gives us access to a high-traffic, value-conscious but trend-aware consumer. Great channel for impulse snack buys.",
@@ -757,7 +761,8 @@ const WHEEL_DATA = {
         "Expand to German Normal locations"
       ],
       keyContact: "TBD",
-      tier: "Core"
+      tier: "Core",
+      country: "Denmark"
     },
     "Søstrene Grene": {
       context: "Danish lifestyle and homeware retailer with a curated, experience-driven store format. A seasonal or gift-focused placement here positions us as a premium, design-forward snack brand.",
@@ -768,7 +773,8 @@ const WHEEL_DATA = {
         "Explore permanent shelf if seasonal performs"
       ],
       keyContact: "TBD",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Denmark"
     },
     "Salling Group": {
       context: "Denmark's largest retailer group, operating Føtex, Bilka, and Netto. A strategic entry point for broad Danish retail coverage across multiple store formats.",
@@ -778,7 +784,8 @@ const WHEEL_DATA = {
         "Establish test market presence"
       ],
       keyContact: "TBD",
-      tier: "Strategic"
+      tier: "Strategic",
+      country: "Denmark"
     },
     "Meny": {
       context: "Premium Norwegian supermarket chain focused on quality and fresh food. Strong alignment with Organic Crave's positioning in the Scandinavian premium grocery segment.",
@@ -788,7 +795,8 @@ const WHEEL_DATA = {
         "Pitch premium organic positioning"
       ],
       keyContact: "TBD",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Denmark"
     },
     "Coop": {
       context: "Major Scandinavian cooperative retail group with presence across Denmark, Sweden, and Norway. Offers access to a broad, value-conscious consumer base.",
@@ -798,7 +806,8 @@ const WHEEL_DATA = {
         "Develop pricing strategy for cooperative model"
       ],
       keyContact: "TBD",
-      tier: "Strategic"
+      tier: "Strategic",
+      country: "Denmark"
     },
     "Circle K": {
       context: "Global convenience store chain with strong Scandinavian presence. High-traffic, impulse-buy format ideal for on-the-go snack positioning.",
@@ -808,7 +817,8 @@ const WHEEL_DATA = {
         "Test in select Nordic locations"
       ],
       keyContact: "TBD",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Denmark"
     },
     "B2B": {
       context: "Business-to-business channel covering office supplies, catering, corporate gifting, and wholesale accounts. A volume play with recurring order potential.",
@@ -828,7 +838,8 @@ const WHEEL_DATA = {
         "Develop Matas-specific packaging or bundles"
       ],
       keyContact: "TBD",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Denmark"
     },
     "Biocompany": {
       context: "German organic supermarket chain. A niche but highly aligned channel for reaching dedicated organic consumers in the German market.",
@@ -838,7 +849,8 @@ const WHEEL_DATA = {
         "Expand to additional Biocompany regions"
       ],
       keyContact: "TBD",
-      tier: "Core"
+      tier: "Core",
+      country: "Germany"
     },
     "Budni": {
       context: "Hamburg-based drugstore and household retail chain expanding across Germany. Budni's community-oriented, sustainability-focused model aligns with our brand values.",
@@ -848,7 +860,8 @@ const WHEEL_DATA = {
         "Pilot in Hamburg-area locations"
       ],
       keyContact: "TBD",
-      tier: "Growth"
+      tier: "Growth",
+      country: "Germany"
     },
     "Other": {
       context: "Catch-all for exploratory retailer conversations, one-off partnerships, pop-up events, and channels not yet assigned to a dedicated retailer track.",
@@ -1007,7 +1020,7 @@ function renderRetailerProfile() {
     return;
   }
   const profile = WHEEL_DATA.retailerProfiles[activeRetailer];
-  const tierClass = (profile.tier || "").toLowerCase();
+  const tierClass = (profile.country || "").toLowerCase();
   let goalsHtml = "";
   if (profile.goals && profile.goals.length > 0) {
     goalsHtml = `<div class="retailer-goals-label">Yearly Goals</div>`;
@@ -1018,7 +1031,7 @@ function renderRetailerProfile() {
   panel.innerHTML = `
     <div class="retailer-profile-header">
       <span class="retailer-profile-name">${activeRetailer}</span>
-      ${profile.tier ? `<span class="retailer-tier ${tierClass}">${profile.tier}</span>` : ''}
+      ${profile.country ? `<span class="retailer-tier ${tierClass}">${profile.country}</span>` : ''}
     </div>
     <div class="retailer-context">${profile.context || ''}</div>
     ${goalsHtml}
