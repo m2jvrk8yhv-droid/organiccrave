@@ -301,37 +301,6 @@
     fill: white;
   }
 
-  /* ---- ACTIVE FILTER BANNER ---- */
-  .active-filter-banner {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background: var(--text);
-    color: white;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 16px;
-  }
-
-  .active-filter-banner.visible {
-    display: flex;
-  }
-
-  .active-filter-banner .clear-filter {
-    margin-left: auto;
-    font-size: 11px;
-    font-weight: 500;
-    opacity: 0.7;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  .active-filter-banner .clear-filter:hover {
-    opacity: 1;
-  }
-
   /* ---- RETAILER PROFILE ---- */
   .retailer-profile {
     display: none;
@@ -683,10 +652,6 @@
     <svg class="wheel-svg" id="wheel" width="560" height="560" viewBox="0 0 560 560"></svg>
   </div>
   <div class="sidebar">
-    <div class="active-filter-banner" id="filterBanner">
-      <span id="filterBannerText"></span>
-      <span class="clear-filter" onclick="setRetailerFilter(null)">Clear filter</span>
-    </div>
     <div class="retailer-profile" id="retailerProfile"></div>
     <div id="sidebarContent"></div>
   </div>
@@ -991,16 +956,6 @@ function renderFilterBar() {
     html += `<span class="filter-pill ${activeRetailer === r ? 'active' : ''}" onclick="setRetailerFilter('${r.replace(/'/g, "\\'")}')">${r} <span class="pill-count">${count}</span></span>`;
   });
   bar.innerHTML = html;
-
-  const banner = document.getElementById("filterBanner");
-  const bannerText = document.getElementById("filterBannerText");
-  if (activeRetailer) {
-    const count = countForRetailer(activeRetailer);
-    bannerText.textContent = `Showing ${count} item${count !== 1 ? 's' : ''} for ${activeRetailer}`;
-    banner.classList.add("visible");
-  } else {
-    banner.classList.remove("visible");
-  }
 }
 
 function setRetailerFilter(retailer) {
