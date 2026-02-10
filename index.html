@@ -343,7 +343,7 @@
   .retailer-tier.denmark { background: #FDEBED; color: #C13E52; }
   .retailer-tier.germany { background: #FDF5E8; color: #B8860B; }
   .retailer-tier.scandinavia { background: #EBF1FD; color: #4A7BCC; }
-  .retailer-tier.europe { background: #F3ECFB; color: #8754C9; }
+  .retailer-tier.europe-middle-east { background: #F3ECFB; color: #8754C9; }
 
   .retailer-context {
     font-size: 13px;
@@ -750,7 +750,7 @@ const WHEEL_DATA = {
       ],
       keyContact: "Sabrine Fabrin",
       tier: "Growth",
-      country: "Europe"
+      country: "Europe & Middle East"
     },
     "Normal": {
       context: "Scandinavian discount variety store with strong presence across Northern Europe. Normal gives us access to a high-traffic, value-conscious but trend-aware consumer. Great channel for impulse snack buys.",
@@ -1020,7 +1020,7 @@ function renderRetailerProfile() {
     return;
   }
   const profile = WHEEL_DATA.retailerProfiles[activeRetailer];
-  const tierClass = (profile.country || "").toLowerCase();
+  const tierClass = (profile.country || "").toLowerCase().replace(/[^a-z]+/g, "-").replace(/(^-|-$)/g, "");
   let goalsHtml = "";
   if (profile.goals && profile.goals.length > 0) {
     goalsHtml = `<div class="retailer-goals-label">Yearly Goals</div>`;
