@@ -1070,9 +1070,9 @@ function showTooltip(e, month) {
       hasItems = true;
       html += `<div class="tooltip-category" style="color:${WHEEL_DATA.colors[cat].main}">${cat}</div>`;
       items.forEach(item => {
-        const badge = `<span class="status-badge status-${item.status}">${item.status}</span>`;
+        const badge = item.status !== 'planned' ? ` <span class="status-badge status-${item.status}">${item.status}</span>` : '';
         const weekTag = item.week ? ` <span style="color:#888;font-size:10px;">W${item.week}</span>` : '';
-        html += `<div class="tooltip-item">${item.title}${weekTag} ${badge}</div>`;
+        html += `<div class="tooltip-item">${item.title}${weekTag}${badge}</div>`;
         if (item.retailers && item.retailers.length > 0) {
           html += `<div class="tooltip-retailer-tags">${item.retailers.map(r => `<span class="tooltip-retailer-tag">${r}</span>`).join('')}</div>`;
         }
@@ -1125,7 +1125,7 @@ function renderSidebar() {
         html += `<div class="timeline-item">
           <div class="timeline-month">${MONTH_NAMES[month]}<br><span style="font-weight:400;font-size:10px;color:#999">${yr}</span>${weekLabel}</div>
           <div class="timeline-content">
-            <div class="timeline-title">${item.title} <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span></div>
+            <div class="timeline-title">${item.title}${item.status !== 'planned' ? ` <span class="status-badge status-${item.status}" style="font-size:9px;padding:1px 5px;margin-left:4px;vertical-align:middle;">${item.status}</span>` : ''}</div>
             ${item.note ? `<div class="timeline-note">${item.note}</div>` : ""}
             ${retailerTags}
           </div>
