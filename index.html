@@ -20,18 +20,21 @@
   }
 
   :root {
-    --color-launches: #8E7284;
-    --color-marketing: #C74B6F;
+    --color-news: #8E7284;
+    --color-activation: #C74B6F;
+    --color-digital: #3A8A8C;
+    --color-communication: #5B6ABF;
     --color-sales: #C9953C;
-    --color-launches-light: #F5EEF3;
-    --color-marketing-light: #FCEEF2;
+    --color-news-light: #F5EEF3;
+    --color-activation-light: #FCEEF2;
+    --color-digital-light: #EAF6F6;
+    --color-communication-light: #EEEFFE;
     --color-sales-light: #FDF5E8;
-    --color-launches-mid: #C4A8BA;
-    --color-marketing-mid: #E8A0B5;
+    --color-news-mid: #C4A8BA;
+    --color-activation-mid: #E8A0B5;
+    --color-digital-mid: #8DC5C7;
+    --color-communication-mid: #A3ADE0;
     --color-sales-mid: #E8CFA0;
-    --color-brand: #3A8A8C;
-    --color-brand-light: #EAF6F6;
-    --color-brand-mid: #8DC5C7;
     --bg: #FFC4DC;
     --bg-soft: #FFD6E7;
     --text: #1A1A1A;
@@ -608,10 +611,11 @@
     <p>Yearly Wheel · Rolling 12-Month View · March 2026 – February 2027</p>
   </div>
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--color-launches)"></div>Launches</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--color-marketing)"></div>Marketing</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-news)"></div>News</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-activation)"></div>Activation</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-digital)"></div>Digital</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--color-communication)"></div>Communication</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-sales)"></div>Sales</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--color-brand)"></div>Brand</div>
   </div>
 </div>
 
@@ -638,14 +642,14 @@
     Any founder can drop updates in the Slack channel. Keep it simple:
   </p>
   <p style="margin-bottom:12px;">
-    <code>"Add Whole Foods launch in August under Launches"</code><br>
-    <code>"Move the influencer campaign from July to September"</code><br>
-    <code>"We're running a brand campaign with Joe & the Juice in October"</code><br>
+    <code>"Add Whole Foods launch in August under News"</code><br>
+    <code>"In-store activation at 7-Eleven Nørrebrogade week 28"</code><br>
+    <code>"Running a digital campaign with Joe & the Juice in October"</code><br>
     <code>"Sales window for Normal closing"</code>
   </p>
   <p style="margin-bottom:12px;">
     <strong>2. Auto-categorize</strong><br>
-    We'll auto-categorize into Launches, Marketing, Sales, or Brand — or ask for clarification if ambiguous.
+    We'll auto-categorize into News, Activation, Digital, Communication, or Sales — or ask for clarification if ambiguous.
   </p>
 </div>
 
@@ -669,12 +673,13 @@ const WHEEL_DATA = {
     startYear: 2026,
     lastUpdated: "2026-02-10T10:15:00Z"
   },
-  categories: ["Launches", "Marketing", "Sales", "Brand"],
+  categories: ["News", "Activation", "Digital", "Communication", "Sales"],
   colors: {
-    "Launches":  { main: "#8E7284", light: "#F5EEF3", mid: "#C4A8BA" },
-    "Marketing": { main: "#C74B6F", light: "#FCEEF2", mid: "#E8A0B5" },
-    "Sales":     { main: "#C9953C", light: "#FDF5E8", mid: "#E8CFA0" },
-    "Brand":     { main: "#3A8A8C", light: "#EAF6F6", mid: "#8DC5C7" }
+    "News":          { main: "#8E7284", light: "#F5EEF3", mid: "#C4A8BA" },
+    "Activation":    { main: "#C74B6F", light: "#FCEEF2", mid: "#E8A0B5" },
+    "Digital":       { main: "#3A8A8C", light: "#EAF6F6", mid: "#8DC5C7" },
+    "Communication": { main: "#5B6ABF", light: "#EEEFFE", mid: "#A3ADE0" },
+    "Sales":         { main: "#C9953C", light: "#FDF5E8", mid: "#E8CFA0" }
   },
   retailerProfiles: {
     "7-Eleven": {
@@ -746,7 +751,7 @@ const WHEEL_DATA = {
   },
   entries: [
     // --- JULY 2026 ---
-    { month: 6, week: 28, category: "Marketing", title: "In-store activation — 7-Eleven Nørrebrogade", status: "planned", note: "Bambina will facilitate", retailers: ["7-Eleven"], slackTs: "1770638553.313419", notionUrl: "https://www.notion.so/303fbe3c99db817eb640f39f2ce9723a" }
+    { month: 6, week: 28, category: "Activation", title: "In-store activation — 7-Eleven Nørrebrogade", status: "planned", note: "Bambina will facilitate", retailers: ["7-Eleven"], slackTs: "1770638553.313419", notionUrl: "https://www.notion.so/303fbe3c99db817eb640f39f2ce9723a" }
   ]
 };
 
@@ -761,9 +766,10 @@ let activeRetailer = null;
 const SVG_NS = "http://www.w3.org/2000/svg";
 const CX = 280, CY = 280;
 const RING_RADII = [
-  { inner: 90, outer: 140 },
-  { inner: 143, outer: 190 },
-  { inner: 193, outer: 235 },
+  { inner: 90, outer: 124 },
+  { inner: 127, outer: 161 },
+  { inner: 164, outer: 198 },
+  { inner: 201, outer: 235 },
   { inner: 238, outer: 272 }
 ];
 const LABEL_RADIUS = 262;
