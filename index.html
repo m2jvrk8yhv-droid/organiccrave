@@ -22,18 +22,12 @@
   :root {
     --color-news: #8E7284;
     --color-activation: #C74B6F;
-    --color-digital: #3A8A8C;
-    --color-communication: #5B6ABF;
     --color-sales: #C9953C;
     --color-news-light: #F5EEF3;
     --color-activation-light: #FCEEF2;
-    --color-digital-light: #EAF6F6;
-    --color-communication-light: #EEEFFE;
     --color-sales-light: #FDF5E8;
     --color-news-mid: #C4A8BA;
     --color-activation-mid: #E8A0B5;
-    --color-digital-mid: #8DC5C7;
-    --color-communication-mid: #A3ADE0;
     --color-sales-mid: #E8CFA0;
     --bg: #FFC4DC;
     --bg-soft: #FFD6E7;
@@ -625,6 +619,22 @@
 </head>
 <body>
 
+<!-- PASSWORD GATE -->
+<div id="loginOverlay" style="position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#FFF5F7,#FFE0E8);display:flex;align-items:center;justify-content:center;font-family:sans-serif;">
+  <div style="text-align:center;max-width:360px;padding:40px;">
+    <h1 style="font-size:28px;margin-bottom:4px;">The Organic <span style="color:#C74B6F;">Crave</span></h1>
+    <p style="font-size:13px;color:#888;margin-bottom:32px;">Yearly Wheel &middot; Internal Access</p>
+    <input id="pwInput" type="password" placeholder="Enter password" style="width:100%;padding:12px 16px;border:1.5px solid #ddd;border-radius:8px;font-size:15px;outline:none;box-sizing:border-box;">
+    <p id="pwError" style="color:#C74B6F;font-size:12px;margin-top:8px;visibility:hidden;">Incorrect password</p>
+    <button onclick="checkPw()" style="margin-top:8px;width:100%;padding:12px;background:#C74B6F;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer;">Enter</button>
+  </div>
+</div>
+<script>
+(function(){if(sessionStorage.getItem("oc-yw")==="1"){document.getElementById("loginOverlay").style.display="none";}})();
+function checkPw(){if(document.getElementById("pwInput").value==="likeforlike"){sessionStorage.setItem("oc-yw","1");document.getElementById("loginOverlay").style.display="none";}else{document.getElementById("pwError").style.visibility="visible";}}
+document.addEventListener("DOMContentLoaded",function(){var i=document.getElementById("pwInput");if(i)i.addEventListener("keydown",function(e){if(e.key==="Enter")checkPw();});})
+</script>
+
 <div class="header">
   <div class="header-left">
     <h1>The Organic <span>Crave</span></h1>
@@ -633,8 +643,6 @@
   <div class="legend">
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-news)"></div>News</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-activation)"></div>Activation</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--color-digital)"></div>Digital</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--color-communication)"></div>Communication</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--color-sales)"></div>Sales</div>
   </div>
 </div>
